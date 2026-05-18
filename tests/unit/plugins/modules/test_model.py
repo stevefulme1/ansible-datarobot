@@ -5,7 +5,6 @@ __metaclass__ = type
 
 from unittest.mock import MagicMock, patch
 
-import pytest
 
 MODULE_PATH = "ansible_collections.stevefulme1.datarobot.plugins.modules.model"
 CLIENT_PATH = "ansible_collections.stevefulme1.datarobot.plugins.module_utils.api_client"
