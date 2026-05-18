@@ -1,0 +1,31 @@
+---
+namespace: stevefulme1
+name: datarobot
+version: 1.0.0
+readme: README.md
+authors:
+  - Steve Fulmer <sfulmer@redhat.com>
+description: >-
+  Ansible Collection for DataRobot AutoML platform.
+  Provides modules for project, model, deployment, prediction server, and
+  monitoring management via the DataRobot REST API.
+license:
+  - GPL-3.0-or-later
+tags:
+  - datarobot
+  - automl
+  - ai
+  - ml
+  - mlops
+  - tools
+  - cloud
+  - data_science
+dependencies: {}
+repository: https://github.com/stevefulme1/ansible-datarobot
+documentation: https://github.com/stevefulme1/ansible-datarobot/blob/main/README.md
+homepage: https://github.com/stevefulme1/ansible-datarobot
+issues: https://github.com/stevefulme1/ansible-datarobot/issues
+build_ignore:
+  - .git
+  - .github
+  - tests/output
