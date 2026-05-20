@@ -5,10 +5,7 @@ version: 0.0.1
 readme: README.md
 authors:
   - Steve Fulmer <sfulmer@redhat.com>
-description: "EXPERIMENTAL - proof of concept, not production ready. >-"
-  Ansible Collection for DataRobot AutoML platform.
-  Provides modules for project, model, deployment, prediction server, and
-  monitoring management via the DataRobot REST API.
+description: "EXPERIMENTAL - proof of concept, not production ready. Ansible Collection for DataRobot AutoML platform. Provides modules for project, model, deployment, prediction server, and monitoring management via the DataRobot REST API."
 license:
   - GPL-3.0-or-later
 tags:
