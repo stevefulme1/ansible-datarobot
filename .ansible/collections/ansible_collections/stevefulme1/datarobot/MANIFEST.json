@@ -1,0 +1,39 @@
+{
+ "collection_info": {
+  "namespace": "stevefulme1",
+  "name": "datarobot",
+  "version": "0.0.1",
+  "authors": [
+   "Steve Fulmer <sfulmer@redhat.com>"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "datarobot",
+   "automl",
+   "ai",
+   "ml",
+   "mlops",
+   "tools",
+   "cloud",
+   "data_science"
+  ],
+  "description": "EXPERIMENTAL - proof of concept, not production ready. Ansible Collection for DataRobot AutoML platform. Provides modules for project, model, deployment, prediction server, and monitoring management via the DataRobot REST API.",
+  "license": [
+   "GPL-3.0-or-later"
+  ],
+  "license_file": null,
+  "dependencies": {},
+  "repository": "https://github.com/stevefulme1/ansible-datarobot",
+  "documentation": "https://github.com/stevefulme1/ansible-datarobot/blob/main/README.md",
+  "homepage": "https://github.com/stevefulme1/ansible-datarobot",
+  "issues": "https://github.com/stevefulme1/ansible-datarobot/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "c80b4a118de03a3fb4d60e54689d6d8c1f031f44babaf39d97b44385b9b280f2",
+  "format": 1
+ },
+ "format": 1
+}
