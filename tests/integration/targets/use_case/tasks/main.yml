@@ -1,0 +1,75 @@
+---
+- name: Create use_case (check mode)
+  stevefulme1.datarobot.use_case:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_use_case_name }}"
+    description: Integration test use case
+  check_mode: true
+  register: _check
+- name: Verify check mode reports changed
+  ansible.builtin.assert:
+    that:
+      - _check is changed
+- name: Create use_case
+  stevefulme1.datarobot.use_case:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_use_case_name }}"
+    description: Integration test use case
+  register: _create
+- name: Verify use_case was created
+  ansible.builtin.assert:
+    that:
+      - _create is changed
+      - _create.use_case is defined
+- name: Create use_case again (idempotent)
+  stevefulme1.datarobot.use_case:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_use_case_name }}"
+    description: Integration test use case
+  register: _idem
+- name: Verify create idempotency
+  ansible.builtin.assert:
+    that:
+      - _idem is not changed
+- name: Update use_case
+  stevefulme1.datarobot.use_case:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_use_case_name }}"
+    description: Updated integration test use case
+  register: _update
+- name: Verify use_case was updated
+  ansible.builtin.assert:
+    that:
+      - _update is changed
+- name: Delete use_case
+  stevefulme1.datarobot.use_case:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_use_case_name }}"
+    state: absent
+  register: _delete
+- name: Verify use_case was deleted
+  ansible.builtin.assert:
+    that:
+      - _delete is changed
+- name: Delete use_case again (idempotent)
+  stevefulme1.datarobot.use_case:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_use_case_name }}"
+    state: absent
+  register: _delete_idem
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - _delete_idem is not changed

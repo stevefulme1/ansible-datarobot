@@ -1,0 +1,68 @@
+---
+- name: Create feature_list (check mode)
+  stevefulme1.datarobot.feature_list:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_datarobot_project_id }}"
+    name: "{{ oci_datarobot_feature_list_name }}"
+    features: "{{ oci_datarobot_features }}"
+  check_mode: true
+  register: _check
+- name: Verify check mode reports changed
+  ansible.builtin.assert:
+    that:
+      - _check is changed
+- name: Create feature_list
+  stevefulme1.datarobot.feature_list:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_datarobot_project_id }}"
+    name: "{{ oci_datarobot_feature_list_name }}"
+    features: "{{ oci_datarobot_features }}"
+  register: _create
+- name: Verify feature_list was created
+  ansible.builtin.assert:
+    that:
+      - _create is changed
+      - _create.feature_list is defined
+- name: Create feature_list again (idempotent)
+  stevefulme1.datarobot.feature_list:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_datarobot_project_id }}"
+    name: "{{ oci_datarobot_feature_list_name }}"
+    features: "{{ oci_datarobot_features }}"
+  register: _idem
+- name: Verify create idempotency
+  ansible.builtin.assert:
+    that:
+      - _idem is not changed
+- name: Delete feature_list
+  stevefulme1.datarobot.feature_list:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_datarobot_project_id }}"
+    name: "{{ oci_datarobot_feature_list_name }}"
+    state: absent
+  register: _delete
+- name: Verify feature_list was deleted
+  ansible.builtin.assert:
+    that:
+      - _delete is changed
+- name: Delete feature_list again (idempotent)
+  stevefulme1.datarobot.feature_list:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    project_id: "{{ oci_datarobot_project_id }}"
+    name: "{{ oci_datarobot_feature_list_name }}"
+    state: absent
+  register: _delete_idem
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - _delete_idem is not changed

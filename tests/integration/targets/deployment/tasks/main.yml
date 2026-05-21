@@ -1,0 +1,85 @@
+---
+- name: Create deployment (check mode)
+  stevefulme1.datarobot.deployment:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_datarobot_model_id }}"
+    label: "{{ oci_datarobot_deployment_label }}"
+    description: Integration test deployment
+    default_prediction_server_id: "{{ oci_datarobot_pred_server_id }}"
+  check_mode: true
+  register: _check
+- name: Verify check mode reports changed
+  ansible.builtin.assert:
+    that:
+      - _check is changed
+- name: Create deployment
+  stevefulme1.datarobot.deployment:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_datarobot_model_id }}"
+    label: "{{ oci_datarobot_deployment_label }}"
+    description: Integration test deployment
+    default_prediction_server_id: "{{ oci_datarobot_pred_server_id }}"
+  register: _create
+- name: Verify deployment was created
+  ansible.builtin.assert:
+    that:
+      - _create is changed
+      - _create.deployment is defined
+- name: Create deployment again (idempotent)
+  stevefulme1.datarobot.deployment:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_datarobot_model_id }}"
+    label: "{{ oci_datarobot_deployment_label }}"
+    description: Integration test deployment
+    default_prediction_server_id: "{{ oci_datarobot_pred_server_id }}"
+  register: _idem
+- name: Verify create idempotency
+  ansible.builtin.assert:
+    that:
+      - _idem is not changed
+- name: Update deployment
+  stevefulme1.datarobot.deployment:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_datarobot_model_id }}"
+    label: "{{ oci_datarobot_deployment_label }}"
+    description: Updated integration test deployment
+    default_prediction_server_id: "{{ oci_datarobot_pred_server_id }}"
+  register: _update
+- name: Verify deployment was updated
+  ansible.builtin.assert:
+    that:
+      - _update is changed
+- name: Delete deployment
+  stevefulme1.datarobot.deployment:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_datarobot_model_id }}"
+    label: "{{ oci_datarobot_deployment_label }}"
+    state: absent
+  register: _delete
+- name: Verify deployment was deleted
+  ansible.builtin.assert:
+    that:
+      - _delete is changed
+- name: Delete deployment again (idempotent)
+  stevefulme1.datarobot.deployment:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    model_id: "{{ oci_datarobot_model_id }}"
+    label: "{{ oci_datarobot_deployment_label }}"
+    state: absent
+  register: _delete_idem
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - _delete_idem is not changed

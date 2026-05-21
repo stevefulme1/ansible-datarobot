@@ -1,0 +1,63 @@
+---
+- name: Create prediction_server (check mode)
+  stevefulme1.datarobot.prediction_server:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_pred_server_name }}"
+    url: "{{ oci_datarobot_pred_server_url }}"
+  check_mode: true
+  register: _check
+- name: Verify check mode reports changed
+  ansible.builtin.assert:
+    that:
+      - _check is changed
+- name: Create prediction_server
+  stevefulme1.datarobot.prediction_server:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_pred_server_name }}"
+    url: "{{ oci_datarobot_pred_server_url }}"
+  register: _create
+- name: Verify prediction_server was created
+  ansible.builtin.assert:
+    that:
+      - _create is changed
+      - _create.prediction_server is defined
+- name: Create prediction_server again (idempotent)
+  stevefulme1.datarobot.prediction_server:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_pred_server_name }}"
+    url: "{{ oci_datarobot_pred_server_url }}"
+  register: _idem
+- name: Verify create idempotency
+  ansible.builtin.assert:
+    that:
+      - _idem is not changed
+- name: Delete prediction_server
+  stevefulme1.datarobot.prediction_server:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_pred_server_name }}"
+    state: absent
+  register: _delete
+- name: Verify prediction_server was deleted
+  ansible.builtin.assert:
+    that:
+      - _delete is changed
+- name: Delete prediction_server again (idempotent)
+  stevefulme1.datarobot.prediction_server:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    name: "{{ oci_datarobot_pred_server_name }}"
+    state: absent
+  register: _delete_idem
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - _delete_idem is not changed

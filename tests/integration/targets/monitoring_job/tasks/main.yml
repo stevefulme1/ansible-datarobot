@@ -1,0 +1,85 @@
+---
+- name: Create monitoring_job (check mode)
+  stevefulme1.datarobot.monitoring_job:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    deployment_id: "{{ oci_datarobot_deployment_id }}"
+    name: "{{ oci_datarobot_monitoring_job_name }}"
+    schedule: "{{ oci_datarobot_monitoring_schedule }}"
+    type: "{{ oci_datarobot_monitoring_type }}"
+  check_mode: true
+  register: _check
+- name: Verify check mode reports changed
+  ansible.builtin.assert:
+    that:
+      - _check is changed
+- name: Create monitoring_job
+  stevefulme1.datarobot.monitoring_job:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    deployment_id: "{{ oci_datarobot_deployment_id }}"
+    name: "{{ oci_datarobot_monitoring_job_name }}"
+    schedule: "{{ oci_datarobot_monitoring_schedule }}"
+    type: "{{ oci_datarobot_monitoring_type }}"
+  register: _create
+- name: Verify monitoring_job was created
+  ansible.builtin.assert:
+    that:
+      - _create is changed
+      - _create.monitoring_job is defined
+- name: Create monitoring_job again (idempotent)
+  stevefulme1.datarobot.monitoring_job:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    deployment_id: "{{ oci_datarobot_deployment_id }}"
+    name: "{{ oci_datarobot_monitoring_job_name }}"
+    schedule: "{{ oci_datarobot_monitoring_schedule }}"
+    type: "{{ oci_datarobot_monitoring_type }}"
+  register: _idem
+- name: Verify create idempotency
+  ansible.builtin.assert:
+    that:
+      - _idem is not changed
+- name: Update monitoring_job
+  stevefulme1.datarobot.monitoring_job:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    deployment_id: "{{ oci_datarobot_deployment_id }}"
+    name: "{{ oci_datarobot_monitoring_job_name }}"
+    schedule: "{{ oci_datarobot_monitoring_schedule_updated }}"
+    type: "{{ oci_datarobot_monitoring_type }}"
+  register: _update
+- name: Verify monitoring_job was updated
+  ansible.builtin.assert:
+    that:
+      - _update is changed
+- name: Delete monitoring_job
+  stevefulme1.datarobot.monitoring_job:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    deployment_id: "{{ oci_datarobot_deployment_id }}"
+    name: "{{ oci_datarobot_monitoring_job_name }}"
+    state: absent
+  register: _delete
+- name: Verify monitoring_job was deleted
+  ansible.builtin.assert:
+    that:
+      - _delete is changed
+- name: Delete monitoring_job again (idempotent)
+  stevefulme1.datarobot.monitoring_job:
+    api_url: "{{ oci_datarobot_api_url }}"
+    api_key: "{{ oci_datarobot_api_key }}"
+    validate_certs: false
+    deployment_id: "{{ oci_datarobot_deployment_id }}"
+    name: "{{ oci_datarobot_monitoring_job_name }}"
+    state: absent
+  register: _delete_idem
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - _delete_idem is not changed
